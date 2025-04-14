@@ -18,9 +18,12 @@ class GradeController extends Controller
         return view('grades.index', compact('grades'));
     }
     public function create()
-    {
-        return view('grades.create');
-    }
+{
+    $students = Student::all();
+    $subjects = Subject::all();
+    return view('grades.create', compact('students', 'subjects'));
+}
+
     public function store(Request $request)
     {
         // Validate and store the grade data
