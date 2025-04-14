@@ -15,50 +15,63 @@ class StudentController extends Controller
     public function create()
     {
         return view('students.create');
-    }
+    }           
     public function store(Request $request)
     {
-
+        // Validate the input (recommended)
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255'
         ]);
-
-     
-        Student::create($request->all());
-
-        return redirect()->route('students.index')->with('success', 'Student added successfully.');
+    
+        // Create and save the new student
+        $student = new Student();
+        
+        $student->first_name = $request->first_name;
+        $student->last_name = $request->last_name;
+        $student->save();
+    
+        // Redirect to the index page (or wherever you prefer)
+        return redirect()->route('students.index')->with('success', 'Student added successfully!');
     }
     public function show($id)
     {
-    
         $student = Student::findOrFail($id);
         return view('students.show', compact('student'));
     }
     public function edit($id)
     {
-    
         $student = Student::findOrFail($id);
         return view('students.edit', compact('student'));
     }
     public function update(Request $request, $id)
     {
-       
+        // Validate the input (recommended)
         $request->validate([
-             'first_name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255'
         ]);
-
+    
+        // Update the student
         $student = Student::findOrFail($id);
-        $student->update($request->all());
-
-        return redirect()->route('students.index')->with('success', 'Student updated successfully.');
+        $student->first_name = $request->first_name;
+        $student->last_name = $request->last_name;
+        $student->save();
+    
+        // Redirect to the index page (or wherever you prefer)
+        return redirect()->route('students.index')->with('success', 'Student updated successfully!');
     }
     public function destroy($id)
     {
         $student = Student::findOrFail($id);
         $student->delete();
-
-        return redirect()->route('students.index')->with('success', 'Student deleted successfully.');
+    
+        return redirect()->route('students.index')->with('success', 'Student deleted successfully!');
     }
+    public function showGrades($id)
+    {
+        $student = Student::with('grades.subject')->findOrFail($id);
+        return view('students.grades', compact('student'));
+    }
+
 }

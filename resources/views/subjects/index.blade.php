@@ -1,1 +1,30 @@
-:3
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div>
+        <!--navbar-->
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/students/create">Add Student</a></li>
+                <li><a href="/subjects/create">Add Subject</a></li>
+                <li><a href="/grades/create">Add grade</a></li>
+                <li><a href="/grades">View</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <h1>Subjects</h1>
+
+    @foreach ($subjects as $subject)
+        <p>{{ $subject->subject_name }}</p>
+    @endforeach
+    
+</body>
+</html>

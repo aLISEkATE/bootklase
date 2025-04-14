@@ -31,20 +31,20 @@ class GradeController extends Controller
         ]);
 
         // Store the grade in the database
-        // Grade::create($request->all());
+        Grade::create($request->all());
 
         return redirect()->route('grades.index')->with('success', 'Grade added successfully.');
     }
     public function show($id)
     {
         // Retrieve and display the grade details
-        // $grade = Grade::findOrFail($id);
+        $grade = Grade::findOrFail($id);
         return view('grades.show', compact('grade'));
     }
     public function edit($id)
     {
         // Retrieve the grade for editing
-        // $grade = Grade::findOrFail($id);
+        $grade = Grade::findOrFail($id);
         return view('grades.edit', compact('grade'));
     }
     public function update(Request $request, $id)
@@ -57,36 +57,36 @@ class GradeController extends Controller
         ]);
 
         // Update the grade in the database
-        // $grade = Grade::findOrFail($id);
-        // $grade->update($request->all());
+         $grade = Grade::findOrFail($id);
+         $grade->update($request->all());
 
         return redirect()->route('grades.index')->with('success', 'Grade updated successfully.');
     }
     public function destroy($id)
     {
         // Delete the grade from the database
-        // $grade = Grade::findOrFail($id);
-        // $grade->delete();
+        $grade = Grade::findOrFail($id);
+        $grade->delete();
 
         return redirect()->route('grades.index')->with('success', 'Grade deleted successfully.');
     }
     public function filter(Request $request)
     {
         // Filter grades based on the request parameters
-        // $grades = Grade::query();
+        $grades = Grade::query();
 
         if ($request->has('student_id')) {
-            // $grades->where('student_id', $request->input('student_id'));
+             $grades->where('student_id', $request->input('student_id'));
         }
 
         if ($request->has('subject_id')) {
-            // $grades->where('subject_id', $request->input('subject_id'));
+             $grades->where('subject_id', $request->input('subject_id'));
         }
 
         if ($request->has('date')) {
-            // $grades->whereDate('date', $request->input('date'));
+            $grades->whereDate('date', $request->input('date'));
         }
 
-        // return view('grades.index', compact('grades'));
+        return view('grades.index', compact('grades'));
     }
 }
