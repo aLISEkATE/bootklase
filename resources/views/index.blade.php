@@ -37,6 +37,7 @@
 
 @auth
 
+<h3>Sveiki, {{ Auth::user()->first_name}}</h3>
 <form action= "/logout" method="POST">
 
   @csrf
@@ -45,7 +46,7 @@
 
 </form>
 
-<p>Welcome to bootklase, {{ Auth::user()->first_name}}!</p>
+<p>Hello, {{ Auth::user()->first_name}}!</p>
 
 @endauth
 
