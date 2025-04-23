@@ -21,7 +21,10 @@ class StudentController extends Controller
         // Validate the input (recommended)
         $request->validate([
             'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255'
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:students,email',
+            'password' => 'required|string|min:6|confirmed',    
+            'role' => 'required|string|in:student,teacher', // Ensure role is either 'student' or 'teacher'
         ]);
     
         // Create and save the new student
@@ -29,6 +32,9 @@ class StudentController extends Controller
         
         $student->first_name = $request->first_name;
         $student->last_name = $request->last_name;
+        $student->email = $request->email;
+        $student->password = bcrypt($request->password); // Hash the password
+        $student->role = 'student'; // Set the role to 'student'
         $student->save();
     
         // Redirect to the index page (or wherever you prefer)
@@ -49,7 +55,7 @@ class StudentController extends Controller
         // Validate the input (recommended)
         $request->validate([
             'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255'
+            'last_name' => 'required|string|max:255',
         ]);
     
         // Update the student

@@ -31,7 +31,7 @@
 
 <a href="/login">Login</a>
 
-<p>Hello, Guest!</p>
+<p>Welcome to bootklase, Guest!</p>
 
 @endguest
 
@@ -45,7 +45,7 @@
 
 </form>
 
-<p>Hello, {{ Auth::user()->first_name}}!</p>
+<p>Welcome to bootklase, {{ Auth::user()->first_name}}!</p>
 
 @endauth
 
