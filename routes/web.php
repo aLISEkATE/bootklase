@@ -11,6 +11,20 @@ use App\Models\Student;
 use App\Models\Subject;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\SessionController;
+use App\Http\Controllers\RegisterController;
+
+
+Route::post('/logout', [SessionController::class, 'destroy'])->middleware("auth");
+Route::post('/login', [SessionController::class, 'store']);
+Route::post('/register', [RegisterController::class, 'store']);
+
+
+Route::get('/register', [RegisterController::class, "create"])->middleware("guest");
+Route::get('/login', [SessionController::class, 'create'])->middleware("auth");
+Route::get('/meow', [SessionController::class, 'meow'])->middleware("auth");
+Route::get('/login', [SessionController::class, "create"])->name("login");
+
 Route::post('/subjects', [SubjectController::class, 'store'])->name('subjects.store');
 Route::post('/students', [StudentController::class, 'store'])->name('students.store');
 Route::post('/grades', [GradeController::class, 'store'])->name('grades.store');
