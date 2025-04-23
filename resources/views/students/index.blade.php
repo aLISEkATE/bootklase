@@ -7,8 +7,8 @@
 </head>
 <body>
     @foreach ($students as $student)
-        <p>{{ $student->first_name }}</p>
-        <p>{{ $student->last_name }}</p>
+        <p><strong>{{ $student->first_name }} {{ $student->last_name }}</strong></p>
+
     @endforeach
 </body>
 </html>

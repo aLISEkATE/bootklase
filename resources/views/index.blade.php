@@ -16,9 +16,11 @@
                 <li><a href="/subjects/create">Add Subject</a></li>
                 <li><a href="/grades/create">Add grade</a></li>
                 <li><a href="/grades">View</a></li>
+            
+
             </ul>
         </nav>
-    <h1>Welcome to my website</h1>
+   
 
     </div>
 

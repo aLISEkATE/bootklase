@@ -1,0 +1,63 @@
+/* style.css */
+
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Comic Neue', cursive;
+}
+
+body {
+    background: #fff0f6;
+    color: #333;
+    padding: 20px;
+}
+
+nav {
+    background-color: #ffe0ec;
+    padding: 15px 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+nav ul li {
+    margin: 10px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #ff69b4;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 15px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+nav ul li a:hover {
+    background-color: #ffd9ea;
+    transform: scale(1.1);
+}
+
+p {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 50px;
+    color: #cc6699;
+    animation: floatText 2s ease-in-out infinite alternate;
+}
+
+@keyframes floatText {
+    from { transform: translateY(0); }
+    to { transform: translateY(-5px); }
+}

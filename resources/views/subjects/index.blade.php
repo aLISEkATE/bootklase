@@ -23,7 +23,7 @@
     <h1>Subjects</h1>
 
     @foreach ($subjects as $subject)
-        <p>{{ $subject->subject_name }}</p>
+        <p><strong>{{ $subject->subject_name }}<strong></p>
     @endforeach
     
 </body>
