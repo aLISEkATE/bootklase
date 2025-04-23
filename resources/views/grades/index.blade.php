@@ -41,13 +41,15 @@
                 <td>{{ $grade->student->last_name }}</td>
                 <td>{{ $grade->subject->subject_name }}</td>
                 <td>{{ $grade->grade }}</td>
+                @if (auth()->user()->role === 'teacher')
                 <td>
-                    <form action="/grades/{{ $grade->id }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" onclick="return confirm('Delete this grade?')">Delete</button>
-                    </form>
-                </td>
+    1            <form action="/grades/{{ $grade->id }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" onclick="return confirm('Delete this grade?')">Delete</button>
+                 </form>
+</td>
+@endif
             </tr>
         @endforeach
     </tbody>

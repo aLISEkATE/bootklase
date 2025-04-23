@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+  use Illuminate\Support\Facades\Auth;
 use App\Models\Grade;
 use App\Models\Student;
 use App\Models\Subject;
@@ -11,12 +11,21 @@ use App\Models\Subject;
 
 class GradeController extends Controller
 {
+
+
     public function index()
-    {
-        $grades = Grade::with(['student', 'subject'])->get(); 
-        
-        return view('grades.index', compact('grades'));
-    }
+        {
+    $user = Auth::user();
+
+    if ($user->role === 'student') {
+        $grades = Grade::where('student_id', $user->id)->with(['subject', 'student'])->get();
+    } else {
+        $grades = Grade::with(['subject', 'student'])->get();
+         }
+
+    return view('grades.index', compact('grades'));
+}
+
     public function create()
 {
     $students = Student::all();

@@ -12,13 +12,14 @@ class Grade extends Model
         'grade',
     ];
 
-    public function student()
-    {
-        return $this->belongsTo(Student::class);
-    }
-    public function subject()
-    {
+    public function subject() {
         return $this->belongsTo(Subject::class);
     }
+    
+    public function student() {
+        return $this->belongsTo(Student::class, 'student_id');
+    }    
+
+    
 
 }
