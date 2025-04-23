@@ -9,18 +9,21 @@
 </head>
 <body>
     
-    <div>
-        <!--navbar-->
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/students/create">Add Student</a></li>
-                <li><a href="/subjects/create">Add Subject</a></li>
-                <li><a href="/grades/create">Add grade</a></li>
-                <li><a href="/grades">View</a></li>
-            </ul>
-        </nav>
-    </div>
+@auth
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+
+        @if (auth()->user()->role === 'teacher')
+            <li><a href="/students/create">Add Student</a></li>
+            <li><a href="/subjects/create">Add Subject</a></li>
+            <li><a href="/grades/create">Add grade</a></li>
+        @endif
+
+        <li><a href="/grades">View</a></li>
+    </ul>
+</nav>
+@endauth
 
     <h1>Grades List</h1>
 
@@ -43,7 +46,7 @@
                 <td>{{ $grade->grade }}</td>
                 @if (auth()->user()->role === 'teacher')
                 <td>
-    1            <form action="/grades/{{ $grade->id }}" method="POST" style="display:inline;">
+              <form action="/grades/{{ $grade->id }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" onclick="return confirm('Delete this grade?')">Delete</button>

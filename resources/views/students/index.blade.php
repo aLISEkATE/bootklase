@@ -7,6 +7,22 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
+@auth
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+
+        @if (auth()->user()->role === 'teacher')
+            <li><a href="/students/create">Add Student</a></li>
+            <li><a href="/subjects/create">Add Subject</a></li>
+            <li><a href="/grades/create">Add grade</a></li>
+        @endif
+
+        <li><a href="/grades">View</a></li>
+    </ul>
+</nav>
+@endauth
+
     @foreach ($students as $student)
         <p><strong>{{ $student->first_name }} {{ $student->last_name }}</strong></p>
 

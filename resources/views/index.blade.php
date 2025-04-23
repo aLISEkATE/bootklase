@@ -35,7 +35,7 @@
     @guest
 
 <a href="/login">Login</a>
-
+<a href="/register">Register</a>
 <p>Welcome to bootklase, Guest!</p>
 
 @endguest

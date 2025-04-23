@@ -7,19 +7,21 @@
     <title>Document</title>
 </head>
 <body>
-    <div>
-        <!--navbar-->
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/students/create">Add Student</a></li>
-                <li><a href="/subjects/create">Add Subject</a></li>
-                <li><a href="/grades/create">Add grade</a></li>
-                <li><a href="/grades">View</a></li>
-            </ul>
-        </nav>
-    </div>
+@auth
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
 
+        @if (auth()->user()->role === 'teacher')
+            <li><a href="/students/create">Add Student</a></li>
+            <li><a href="/subjects/create">Add Subject</a></li>
+            <li><a href="/grades/create">Add grade</a></li>
+        @endif
+
+        <li><a href="/grades">View</a></li>
+    </ul>
+</nav>
+@endauth
     <h1>Edit Subject</h1>
 
     <form action="/subjects/{{ $subject->id }}" method="POST">
