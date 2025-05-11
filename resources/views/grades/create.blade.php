@@ -32,9 +32,9 @@
     <!-- Student Dropdown -->
     <label for="student_id">Student:</label>
     <select id="student_id" name="student_id" required>
-        @foreach ($students as $student)
-            <option value="{{ $student->id }}">{{ $student->first_name }} {{ $student->last_name }}</option>
-        @endforeach
+    @foreach ($students as $student)
+        <option value="{{ $student->id }}">{{ $student->first_name }} {{ $student->last_name }}</option>
+    @endforeach
     </select>
     <br><br>
 

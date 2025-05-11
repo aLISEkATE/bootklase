@@ -38,6 +38,34 @@
         </tr>
     </thead>
     <tbody>
+
+    <form method="GET" action="{{ route('grades.index') }}">
+    <select name="student_id">
+        <option value="">All Students</option>
+        @foreach($students as $student)
+            <option value="{{ $student->id }}" {{ request('student_id') == $student->id ? 'selected' : '' }}>
+                {{ $student->first_name }} {{ $student->last_name }}
+            </option>
+        @endforeach
+    </select>
+
+    <select name="subject_id">
+        <option value="">All Subjects</option>
+        @foreach($subjects as $subject)
+            <option value="{{ $subject->id }}" {{ request('subject_id') == $subject->id ? 'selected' : '' }}>
+                {{ $subject->subject_name }}
+            </option>
+        @endforeach
+    </select>
+
+    <select name="sort_order">
+     <option value="asc" {{ request('sort_order') == 'asc' ? 'selected' : '' }}>Ascending</option>
+     <option value="desc" {{ request('sort_order') == 'desc' ? 'selected' : '' }}>Descending</option>
+    </select>
+
+
+    <button type="submit">Filter</button>
+    </form>
         @foreach ($grades as $grade)
             <tr>
                 <td>{{ $grade->student->first_name }}</td>

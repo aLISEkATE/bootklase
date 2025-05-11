@@ -7,28 +7,51 @@ use Illuminate\Http\Request;
 use App\Models\Grade;
 use App\Models\Student;
 use App\Models\Subject;
+use App\Models\User;
 
 
 class GradeController extends Controller
 {
+    
+    public function index(Request $request)
+    {
+        $grades = Grade::with(['subject', 'student']);
+        $user = Auth::user();
 
-
-    public function index()
-        {
-    $user = Auth::user();
-
-    if ($user->role === 'student') {
-        $grades = Grade::where('student_id', $user->id)->with(['subject', 'student'])->get();
-    } else {
-        $grades = Grade::with(['subject', 'student'])->get();
-         }
-
-    return view('grades.index', compact('grades'));
-}
+        if ($request->filled('student_id')) {
+            $grades->where('student_id', $request->student_id);
+        }
+    
+        if ($request->filled('subject_id')) {
+            $grades->where('subject_id', $request->subject_id);
+        }
+    
+        // Sorting logic
+        $sort_by = $request->input('sort_by', 'grade'); // default to sorting by grade
+        $sort_order = $request->input('sort_order', 'asc'); // default to ascending
+    
+        // Only allow valid columns
+        if (in_array($sort_by, ['grade', 'student_name'])) {
+            if ($sort_by === 'student_name') {
+                // Sort by related student's last name
+                $grades = $grades->get()->sortBy(fn($g) => $g->student->last_name, SORT_REGULAR, $sort_order === 'desc');
+            } else {
+                $grades = $grades->orderBy($sort_by, $sort_order)->get();
+            }
+        } else {
+            $grades = $grades->get();
+        }
+    
+        $students = User::where('role', 'student')->get();
+        $subjects = Subject::all();
+    
+        return view('grades.index', compact('grades', 'students', 'subjects'));
+    }
+    
 
     public function create()
 {
-    $students = Student::all();
+    $students = User::where('role', 'student')->get();
     $subjects = Subject::all();
     return view('grades.create', compact('students', 'subjects'));
 }
@@ -37,7 +60,7 @@ class GradeController extends Controller
     {
         // Validate and store the grade data
         $request->validate([
-            'student_id' => 'required|exists:students,id',
+            'student_id' => 'required|exists:users,id',
             'subject_id' => 'required|exists:subjects,id',
             'grade' => 'required|numeric|min:0|max:100',
         ]);

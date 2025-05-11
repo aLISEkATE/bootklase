@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+  use App\Models\User;
+  
 class Grade extends Model
 {
     protected $fillable = [
@@ -16,9 +17,12 @@ class Grade extends Model
         return $this->belongsTo(Subject::class);
     }
     
-    public function student() {
-        return $this->belongsTo(Student::class, 'student_id');
-    }    
+  
+
+    public function student()
+    {
+        return $this->belongsTo(User::class, 'student_id');
+    }
 
     
 

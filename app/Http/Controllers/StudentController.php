@@ -4,6 +4,9 @@
 namespace App\Http\Controllers;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
 {
@@ -18,26 +21,22 @@ class StudentController extends Controller
     }           
     public function store(Request $request)
     {
-        // Validate the input (recommended)
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'password' => 'required|string|min:6|confirmed',    
-            'role' => 'required|string|in:student,teacher', // Ensure role is either 'student' or 'teacher'
-        ]);
-    
-        // Create and save the new student
-        $student = new Student();
-        
-        $student->first_name = $request->first_name;
-        $student->last_name = $request->last_name;
-        $student->password = bcrypt($request->password); // Hash the password
-        $student->role = 'student'; // Set the role to 'student'
-        $student->save();
-    
-        // Redirect to the index page (or wherever you prefer)
-        return redirect()->route('students.index')->with('success', 'Student added successfully!');
-        echo "Student added successfully!";
+    $validated = $request->validate([
+        'first_name' => ['required', 'string', 'max:255'],
+        'last_name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'email', Rule::unique('users', 'email')],
+        'password' => ['required', Password::min(6)->numbers()->letters()->symbols(), 'confirmed'],
+    ]);
+
+    $user = User::create([
+        'first_name' => $validated['first_name'],
+        'last_name' => $validated['last_name'],
+        'email' => $validated['email'],
+        'password' => bcrypt($validated['password']),
+        'role' => 'student',
+    ]);
+
+    return redirect()->route('students.index')->with('success', 'Student account created successfully.');
     }
     public function show($id)
     {
