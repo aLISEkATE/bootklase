@@ -25,7 +25,13 @@
 
     @foreach ($students as $student)
         <p><strong>{{ $student->first_name }} {{ $student->last_name }}</strong></p>
-
+                <form action="/students/{{ $student->id }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" onclick="return confirm('Delete this grade?')">Delete</button>
+                 </form>
+                 <a href="/students/{{ $student->id }}/edit"  style="display:inline;">Edit</a>
+      
     @endforeach
 </body>
 </html>

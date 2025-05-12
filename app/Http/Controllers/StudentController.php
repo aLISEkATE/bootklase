@@ -12,7 +12,7 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $students = Student::all();
+          $students = User::where('role', 'student')->get();
         return view('students.index', compact('students'));
     }
     public function create()
@@ -45,7 +45,7 @@ class StudentController extends Controller
     }
     public function edit($id)
     {
-        $student = Student::findOrFail($id);
+        $student = User::findOrFail($id);
         return view('students.edit', compact('student'));
     }
     public function update(Request $request, $id)
@@ -57,7 +57,7 @@ class StudentController extends Controller
         ]);
     
         // Update the student
-        $student = Student::findOrFail($id);
+        $student = User::findOrFail($id);
         $student->first_name = $request->first_name;
         $student->last_name = $request->last_name;
         $student->save();
@@ -67,7 +67,7 @@ class StudentController extends Controller
     }
     public function destroy($id)
     {
-        $student = Student::findOrFail($id);
+        $student = User::findOrFail($id);
         $student->delete();
     
         return redirect()->route('students.index')->with('success', 'Student deleted successfully!');

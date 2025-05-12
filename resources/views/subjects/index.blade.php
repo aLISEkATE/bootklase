@@ -27,6 +27,12 @@
 
     @foreach ($subjects as $subject)
         <p><strong>{{ $subject->subject_name }}<strong></p>
+               <form action="/subjects/{{ $subject->id }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" onclick="return confirm('Delete this grade?')">Delete</button>
+                 </form>
+                 <a href="/subjects/{{ $subject->id }}/edit"  style="display:inline;">Edit</a>
     @endforeach
     
 </body>
