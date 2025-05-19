@@ -25,13 +25,15 @@
 
     @foreach ($students as $student)
         <p><strong>{{ $student->first_name }} {{ $student->last_name }}</strong></p>
-                <form action="/students/{{ $student->id }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" onclick="return confirm('Delete this grade?')">Delete</button>
-                 </form>
-                 <a href="/students/{{ $student->id }}/edit"  style="display:inline;">Edit</a>
-      
+        <img src="{{ $student->avatar ? asset('storage/' . $student->avatar) : asset('default-avatar.png') }}" alt="Student Avatar" width="100">
+        <form action="/students/{{ $student->id }}" method="POST" style="display:inline;">
+            @csrf
+            @method('DELETE')
+            <button type="submit" onclick="return confirm('Delete this student?')">Delete</button>
+        </form>
+        <a href="/students/{{ $student->id }}/edit" style="display:inline;">Edit</a>
     @endforeach
+
+<!--<img src="{{ $student->avatar ? asset('storage/' . $student->avatar) : asset('default-avatar.png') }}" alt="User Avatar" width="100">-->
 </body>
 </html>

@@ -24,7 +24,7 @@
 @endauth
     <h1>Add Student</h1>
 
-    <form action="/students" method="POST">
+    <form action="/students" method="POST" enctype="multipart/form-data">
         @csrf
         <label for="first_name">First Name:</label>
         <input type="text" id="first_name" name="first_name" required><br><br>
@@ -35,6 +35,8 @@
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required><br><br>
 
+        <label for="avatar">Avatar:</label>
+        <input type="file" name="avatar" id="avatar" accept="image/*"><br><br>
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required><br><br>

@@ -11,6 +11,7 @@ class Student extends Model
         'last_name',
         'role',
         'password',
+        'avatar'
     ];
 
         

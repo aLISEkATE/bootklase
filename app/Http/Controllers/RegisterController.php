@@ -21,8 +21,14 @@ class RegisterController extends Controller
             "last_name" => ["required", "max:255"],
             "role" => ["required", Rule::in(['teacher', 'student'])],
             "email" => ['required', 'email', Rule::unique('users', 'email')],
-            "password" => ["required", Password::min(6)->numbers()->letters()->symbols(),"confirmed"]
+            "password" => ["required", Password::min(6)->numbers()->letters()->symbols(),"confirmed"],
+            "avatar" => ["nullable", "image", "max:2048"], // Validate avatar file
           ]);
+
+   if ($request->hasFile('avatar')) {
+        $validated['avatar'] = $request->file('avatar')->store('avatars', 'public'); // Store avatar
+    }
+
 
           $user = User::create($validated);
           Auth::login($user);

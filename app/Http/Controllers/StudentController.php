@@ -22,25 +22,24 @@ class StudentController extends Controller
     public function store(Request $request)
     {
     $validated = $request->validate([
-        'first_name' => ['required', 'string', 'max:255'],
-        'last_name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'email', Rule::unique('users', 'email')],
+        'first_name' => 'required|max:255',
+        'last_name' => 'required|max:255',
+        'email' => 'required|email|unique:users,email',
         'password' => ['required', Password::min(6)->numbers()->letters()->symbols(), 'confirmed'],
+        'avatar' => 'nullable|image|max:2048', // Validate avatar file
     ]);
 
-    $user = User::create([
-        'first_name' => $validated['first_name'],
-        'last_name' => $validated['last_name'],
-        'email' => $validated['email'],
-        'password' => bcrypt($validated['password']),
-        'role' => 'student',
-    ]);
+    if ($request->hasFile('avatar')) {
+        $validated['avatar'] = $request->file('avatar')->store('avatars', 'public'); // Store avatar
+    }
 
-    return redirect()->route('students.index')->with('success', 'Student account created successfully.');
+    User::create($validated);
+
+    return redirect('/students')->with('success', 'Student created successfully!');
     }
     public function show($id)
     {
-        $student = Student::findOrFail($id);
+        $student = User::findOrFail($id);
         return view('students.show', compact('student'));
     }
     public function edit($id)
@@ -78,4 +77,21 @@ class StudentController extends Controller
         return view('students.grades', compact('student'));
     }
 
+    public function updateAvatar(Request $request, Student $student)
+    {
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Handle file upload
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+
+            // Update the student's avatar in the database
+            $student->avatar = $avatarPath;
+            $student->save();
+        }
+
+        return redirect()->back()->with('success', 'Avatar updated successfully!');
+    }
 }
